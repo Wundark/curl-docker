@@ -8,28 +8,32 @@ RUN cd /tmp && \
   export KERNEL_BITS=64 && \
   ./Configure linux-generic64 && \
   ./config shared enable-ec_nistp_64_gcc_128 --openssldir=/usr/local/openssl --prefix=/usr/local/openssl && \
-  make && make install
+  make && make install && \
+  rm -rf /tmp
 
-RUN cd /tmp && \
+RUN mkdir /tmp && cd /tmp && \
   git clone https://github.com/google/brotli && \
   cd brotli && \
   mkdir out && cd out && \
   ../configure-cmake && \
-  make && make test && make install
+  make && make test && make install && \
+  rm -rf /tmp
 
-RUN cd /tmp && \
+RUN mkdir /tmp && cd /tmp && \
   git clone https://github.com/tatsuhiro-t/nghttp2 && \
   cd nghttp2 && \
   autoreconf -i && automake && autoconf && \
   ./configure && \
-  make && make install
+  make && make install && \
+  rm -rf /tmp
 
-RUN cd /tmp && \
+RUN mkdir /tmp && cd /tmp && \
   git clone https://github.com/curl/curl && \
   cd curl && \
   ./buildconf && \
   ./configure --with-nghttp2=/usr/local --with-ssl=/usr/local/openssl --disable-shared --with-brotli && \
-  make && make install
+  make && make install && \
+  rm -rf /tmp
 
 ENV LD_LIBRARY_PATH=/usr/local/openssl/lib
 
