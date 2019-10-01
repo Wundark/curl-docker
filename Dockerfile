@@ -1,6 +1,6 @@
 FROM alpine:3.8
 
-RUN apk add --no-cache autoconf automake libtool cmake git make g++ linux-headers
+RUN apk add --no-cache --virtual .build-deps autoconf automake libtool cmake git make g++ linux-headers
 
 RUN mkdir /tmp/build && cd /tmp/build && \
   git clone git://git.openssl.org/openssl.git && \
@@ -34,6 +34,8 @@ RUN mkdir /tmp/build && cd /tmp/build && \
   ./configure --with-nghttp2=/usr/local --with-ssl=/usr/local/openssl --disable-shared --with-brotli && \
   make && make install && \
   rm -rf /tmp/build
+
+RUN apk del .build-deps
 
 ENV LD_LIBRARY_PATH=/usr/local/openssl/lib
 
