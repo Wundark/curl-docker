@@ -30,7 +30,8 @@ RUN apk add --no-cache --virtual .build-deps autoconf automake libtool cmake git
   ./configure --with-nghttp2=/usr/local --with-ssl=/usr/local/openssl --disable-shared --with-brotli && \
   make && make install && \
   rm -rf /tmp/build && \
-  apk del .build-deps
+  apk del .build-deps && \
+  apk add ca-certificates
 
 ENV LD_LIBRARY_PATH=/usr/local/openssl/lib
 
